@@ -1,0 +1,41 @@
+﻿@using FoodDeliveryShop.Models;
+
+
+@model Register
+@{
+}
+
+<form method="post">
+	<div asp-validation-summary="All" class="text-danger">
+	</div>
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2>Registration</h2>
+			<hr/>
+		</div>
+		<div class="mb-3">
+			<label asp-for="Email"></label>
+			<input type="text" asp-for="Email" class="form-control" />
+			<span asp-validation-for="Email" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="Password"></label>
+			<input type="password" asp-for="Password" class="form-control" />
+			<span asp-validation-for="Password" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="ConfirmPassword"></label>
+			<input type="password" asp-for="ConfirmPassword" class="form-control" />
+			<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<a class="btn btn-primary" asp-area="Account" asp-controller="Identity" asp-action="Register">Registration</a>
+		</div>
+	</div>
+</form>
+
+
+
+
+
+

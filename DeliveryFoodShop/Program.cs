@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
-
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -15,17 +14,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => {
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddScoped<DbInitializer>();
 
+
 var app = builder.Build();
-/*using (var scope = app.Services.CreateScope())
-{
-    var dbInitializer = scope.ServiceProvider.GetRequiredService<DbInitializer>();
-    dbInitializer.SeedRoles();
-}*/
 
 using (var scope = app.Services.CreateScope())
 {
     var dbInitializer = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    DbInitializer.SeedRolesAsync(dbInitializer);
+    await DbInitializer.SeedRolesAsync(dbInitializer);
 }
 
 
@@ -47,5 +42,9 @@ app.UseAuthorization();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{area=Pages}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

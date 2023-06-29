@@ -16,22 +16,6 @@ namespace DeliveryFoodShop.Data
             this.roleManager = roleManager;
         }
 
-        public void SeedRoles()
-        {
-            dbContext.Database.Migrate();
-            if (!roleManager.RoleExistsAsync("Admin").GetAwaiter().GetResult())
-            {
-                roleManager.CreateAsync(new IdentityRole { Name = "Admin" }).GetAwaiter().GetResult();
-            }
-            if (!roleManager.RoleExistsAsync("Manager").GetAwaiter().GetResult())
-            {
-                roleManager.CreateAsync(new IdentityRole { Name = "Manager" }).GetAwaiter().GetResult();
-            }
-            if (!roleManager.RoleExistsAsync("Customer").GetAwaiter().GetResult())
-            {
-                roleManager.CreateAsync(new IdentityRole { Name = "Customer" }).GetAwaiter().GetResult();
-            }
-        }
 
         public static async Task SeedRolesAsync(ApplicationDbContext dbContext)
         {
