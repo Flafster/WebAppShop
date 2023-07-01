@@ -6,9 +6,7 @@
 {
     <ul class="navbar-nav d-flex justify-content-end" style="margin-left:10px">
         <li class="nav-item">
-            <form method="post">
-                <button class="btn btn-primary" asp-area="" asp-page="/Logout">Logout</button>
-            </form>
+            <a class="btn btn-primary" asp-area="Account" asp-controller="Identity" asp-action="Logout">Logout</a>
         </li>
     </ul>
 }

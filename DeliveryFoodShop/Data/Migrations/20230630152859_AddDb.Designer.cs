@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace DeliveryFoodShop.Migrations
+namespace WebAppShop.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230614185424_AddDb")]
+    [Migration("20230630152859_AddDb")]
     partial class AddDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,8 +49,9 @@ namespace DeliveryFoodShop.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .IsRequired()

@@ -20,7 +20,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbInitializer = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    await DbInitializer.SeedRolesAsync(dbInitializer);
+    await DbInitializer.Seed(dbInitializer);
 }
 
 
@@ -34,13 +34,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
-
+app.UseAuthentication();
 app.UseAuthorization();
-app.UseAuthorization();
-
 app.MapRazorPages();
 
 app.MapControllerRoute(
