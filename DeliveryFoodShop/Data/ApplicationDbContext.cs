@@ -1,6 +1,7 @@
 ﻿using DeliveryFoodShop.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WebAppShop.Models;
 
 namespace DeliveryFoodShop.Data
 {
@@ -13,5 +14,6 @@ namespace DeliveryFoodShop.Data
 
         public DbSet<Product> Product { get; set; }
         public DbSet<Category> Category { get; set; }
+        public DbSet<CartItem> ShopingCartItems { get; set; }
     }
 }

@@ -1,0 +1,31 @@
+﻿@using DeliveryFoodShop.Models;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model List<Product>
+
+
+<div class="row">
+    @foreach(var item in Model)
+    {
+        <div class="column col-md-3 p-3">
+            <div class="text-center" style="height:250px">
+                <div class="d-flex justify-content-center">
+                    <img src="@item.Image" style="width:50%">
+                </div>
+            </div>
+            <div class="text-center" style="height:90px">
+                <p class="card-title">@item.Name</p>
+            </div>
+            <div class="text-end" style="height:50px">
+                <b >@item.Price $</b>
+            </div>
+            <div>
+                <a class="btn btn-primary w-100" asp-area="Products" asp-controller="Products" asp-action="AddInShopingCard">Add to cart</a>
+            </div>
+        </div>
+    }
+</div>

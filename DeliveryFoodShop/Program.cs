@@ -14,8 +14,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => {
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddScoped<DbInitializer>();
 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(10);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
+
 
 using (var scope = app.Services.CreateScope())
 {
@@ -37,10 +45,11 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseSession();
 app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{area=Pages}/{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area=Index}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
