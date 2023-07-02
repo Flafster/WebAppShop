@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DeliveryFoodShop.Areas.Account.Controllers
 {
+    [Area("Account")]
     public class IdentityController : Controller
     {
         private readonly UserManager<IdentityUser> userManager;

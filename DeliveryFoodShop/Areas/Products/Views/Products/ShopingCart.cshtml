@@ -1,0 +1,38 @@
+﻿@using DeliveryFoodShop.Models;
+@using WebAppShop.Models;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<CartItemForView>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Description</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th style="width:80px">Price $</th>
+        </tr>
+    </thead>
+    @foreach(var item in Model){
+    <tbody>
+            <tr>
+                <th>
+                    <div class="d-flex justify-content-center">
+                        <img src="@item.ProductImage" style="width:50%">
+                    </div>
+                </th>
+                <td>@item.ProductDescription</td>
+                <td>@item.ProductName</td>
+                <td>@item.ProductQuantity</td>
+                <td>@item.ProductPrice $</td>
+                <td>
+                    <a class="btn btn-danger" asp-route-id="@item.Id" asp-area="Products" asp-controller="Products" asp-action="Delete">Delete</a>
+                </td>
+            </tr>
+    </tbody>
+    }
+</table>
