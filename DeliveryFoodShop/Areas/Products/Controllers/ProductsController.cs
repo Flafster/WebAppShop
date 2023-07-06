@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using DeliveryFoodShop.Areas.Account.Controllers;
 using DeliveryFoodShop.Data;
@@ -25,7 +26,7 @@ namespace WebAppShop.Areas.Products.Controllers
 
         public List<Product> products = new List<Product>();
         public List<CartItem> cartItems = new List<CartItem>();
-        public List<CartItemForView> cartItemForViews = new List<CartItemForView>();
+        public List<CartItemForView> cartItemForViews;
 
         public IActionResult Catalog()
         {
@@ -34,10 +35,32 @@ namespace WebAppShop.Areas.Products.Controllers
             return View(products);
         }
 
-        public IActionResult ShopingCart() 
+        public IActionResult ShoppingCart() 
         {
             string customerId = HttpContext.User.Identity.Name.ToString();
-            cartItems =dbContext.ShopingCartItems.Where(q=>q.CustomerId==customerId).ToList();
+
+            var cartItemForViews = dbContext.ShopingCartItems
+                .Where(q=>q.CustomerId == customerId)
+                .Join(dbContext.Product, 
+                q=>q.ProductId, 
+                w=>w.Id, 
+                (q, w)=>
+                new CartItemForView()
+                {
+                    Id = q.Id,
+                    CustomerId = q.CustomerId,
+                    ProductId = q.ProductId,
+                    ProductDescription = w.Description,
+                    ProductImage = w.Image,
+                    ProductName = w.Name,
+                    ProductPrice = w.Price,
+                    ProductCategory = w.Category,
+                    ProductQuantity = q.Quantity,
+                    DataCreatedCartItem = q.DateCreated
+                }).ToList();
+
+
+            /*cartItems =dbContext.ShopingCartItems.Where(q=>q.CustomerId==customerId).ToList();
             foreach (var item in cartItems)
             {
                 products.Add(dbContext.Product.First(q=>q.Id==item.ProductId));
@@ -58,7 +81,25 @@ namespace WebAppShop.Areas.Products.Controllers
                     ProductQuantity = cartItem.Quantity,
                     DataCreatedCartItem = cartItem.DateCreated,
                 });
-            }
+            }*/
+
+            /*var cartItemForViews = (from Order in dbContext.ShopingCartItems
+                                    where Order.CustomerId == customerId
+                                    join Product in dbContext.Product on Order.ProductId equals Product.Id
+                                    select new CartItemForView()
+                                    {
+                                        Id=Order.Id,
+                                        CustomerId=Order.CustomerId,
+                                        ProductId = Order.ProductId,
+                                        ProductDescription=Product.Description,
+                                        ProductImage=Product.Image,
+                                        ProductName=Product.Name,
+                                        ProductPrice=Product.Price,
+                                        ProductCategory=Product.Category,
+                                        ProductQuantity=Order.Quantity,
+                                        DataCreatedCartItem=Order.DateCreated
+                                     }).ToList();*/
+
             return View(cartItemForViews);
         }
 
@@ -67,11 +108,11 @@ namespace WebAppShop.Areas.Products.Controllers
             var cart=dbContext.ShopingCartItems.First(q => q.Id == id);
             dbContext.ShopingCartItems.Remove(cart);
             dbContext.SaveChanges();
-            return RedirectToAction("ShopingCart", "Products");
+            return RedirectToAction("ShoppingCart", "Products");
         }
 
         
-        public IActionResult AddInShopingCard(int id)
+        public IActionResult AddInShoppingCard(int id)
         {
             if (signInManager.IsSignedIn(User))
             {

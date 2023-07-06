@@ -33,15 +33,15 @@ namespace DeliveryFoodShop.Data
             var roles = new RoleStore<IdentityRole>(dbContext);
             if(!dbContext.Roles.Any(q=>q.Name=="Admin"))
             {
-                await roles.CreateAsync(new IdentityRole { Name = "Admin" });
+                await roles.CreateAsync(new IdentityRole { Name = "Admin", NormalizedName="ADMIN" });
             }
             if(!dbContext.Roles.Any(q=>q.Name=="Manager"))
             {
-                await roles.CreateAsync(new IdentityRole { Name = "Manager" });
+                await roles.CreateAsync(new IdentityRole { Name = "Manager", NormalizedName="MANAGER" });
             }
             if(!dbContext.Roles.Any(q=>q.Name=="Customer"))
             {
-                await roles.CreateAsync(new IdentityRole { Name = "Customer" });
+                await roles.CreateAsync(new IdentityRole { Name = "Customer", NormalizedName="CUSTOMER" });
             }
 
             var admin = new IdentityUser()
