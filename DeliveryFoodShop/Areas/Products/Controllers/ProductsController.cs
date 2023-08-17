@@ -5,8 +5,10 @@ using DeliveryFoodShop.Areas.Account.Controllers;
 using DeliveryFoodShop.Data;
 using DeliveryFoodShop.Models;
 using DeliveryFoodShop.Pages.Account.Views.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using WebAppShop.Models;
 
@@ -26,12 +28,19 @@ namespace WebAppShop.Areas.Products.Controllers
 
         public List<Product> products = new List<Product>();
         public List<CartItem> cartItems = new List<CartItem>();
+        public List<Category> categories = new List<Category>();
         public List<CartItemForView> cartItemForViews;
 
         public IActionResult Catalog()
         {
 
             products=dbContext.Product.ToList();
+            return View(products);
+        }
+
+        public IActionResult Category(string categiry)
+        {
+            products = dbContext.Product.Where(q=>q.Category == categiry).ToList();
             return View(products);
         }
 
@@ -111,11 +120,9 @@ namespace WebAppShop.Areas.Products.Controllers
             return RedirectToAction("ShoppingCart", "Products");
         }
 
-        
+        [Authorize]
         public IActionResult AddInShoppingCard(int id)
         {
-            if (signInManager.IsSignedIn(User))
-            {
                 var customerId = HttpContext.User.Identity.Name;
                 var cartItem=dbContext.ShopingCartItems.SingleOrDefault(q=>q.CustomerId==customerId && q.ProductId == id);
                 if (cartItem == null)
@@ -132,8 +139,6 @@ namespace WebAppShop.Areas.Products.Controllers
                 else { cartItem.Quantity++; }
                 dbContext.SaveChanges();
                 return RedirectToAction("Catalog");
-            }
-            return Redirect("/Account/Identity/Login");
         }
     }
 }

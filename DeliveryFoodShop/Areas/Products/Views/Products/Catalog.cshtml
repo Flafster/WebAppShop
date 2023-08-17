@@ -8,6 +8,23 @@
 @model List<Product>
 
 
+<div class="d-inline">
+    <div class="nav justify-content-center">
+        <div>
+            <a class="btn btn-light" style="margin-left:10px" asp-route-categiry="men's clothing" asp-area="Products" asp-controller="Products" asp-action="Category">Men's clothing</a>
+        </div>
+        <div>
+            <a class="btn btn-light" style="margin-left:10px" asp-route-categiry="jewelery" asp-area="Products" asp-controller="Products" asp-action="Category">Jewelery</a>
+        </div>
+        <div>
+            <a class="btn btn-light" style="margin-left:10px" asp-route-categiry="electronics" asp-area="Products" asp-controller="Products" asp-action="Category">Electronics</a>
+        </div>
+        <div>
+            <a class="btn btn-light" style="margin-left:10px" asp-route-categiry="women's clothing" asp-area="Products" asp-controller="Products" asp-action="Category">Women's clothing</a>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     @foreach(var item in Model)
     {
